@@ -86,39 +86,39 @@ const Events: React.FC = () => {
                       <div className="lg:w-2/3 p-6 flex flex-col justify-between min-h-0">
                         <div className="flex-grow">
                           <h3 className="text-xl lg:text-2xl font-black text-gray-800 mb-4 group-hover:text-purple-600 transition-colors line-clamp-2">
-                          {event.title}
-                        </h3>
+                            {event.title}
+                          </h3>
                         
                           <p className="text-gray-700 mb-6 leading-relaxed text-base font-semibold line-clamp-3">
-                          {event.description}
-                        </p>
+                            {event.description}
+                          </p>
 
-                        {/* Event Details */}
+                          {/* Event Details */}
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                          <div className="flex items-center space-x-3 space-x-reverse">
-                            <Calendar className="w-5 h-5 text-purple-500" />
-                            <div>
-                              <p className="font-black text-gray-800 text-sm">تاریخ</p>
-                              <p className="text-gray-700 font-semibold text-sm">{event.date}</p>
+                            <div className="flex items-center space-x-3 space-x-reverse">
+                              <Calendar className="w-5 h-5 text-purple-500" />
+                              <div>
+                                <p className="font-black text-gray-800 text-sm">تاریخ</p>
+                                <p className="text-gray-700 font-semibold text-sm">{event.date}</p>
+                              </div>
+                            </div>
+                            
+                            <div className="flex items-center space-x-3 space-x-reverse">
+                              <Clock className="w-5 h-5 text-purple-500" />
+                              <div>
+                                <p className="font-black text-gray-800 text-sm">زمان</p>
+                                <p className="text-gray-700 font-semibold text-sm">{event.time}</p>
+                              </div>
+                            </div>
+                            
+                            <div className="flex items-center space-x-3 space-x-reverse">
+                              <MapPin className="w-5 h-5 text-purple-500" />
+                              <div>
+                                <p className="font-black text-gray-800 text-sm">مکان</p>
+                                <p className="text-gray-700 font-semibold text-sm line-clamp-1">{event.location}</p>
+                              </div>
                             </div>
                           </div>
-                          
-                          <div className="flex items-center space-x-3 space-x-reverse">
-                            <Clock className="w-5 h-5 text-purple-500" />
-                            <div>
-                              <p className="font-black text-gray-800 text-sm">زمان</p>
-                              <p className="text-gray-700 font-semibold text-sm">{event.time}</p>
-                            </div>
-                          </div>
-                          
-                          <div className="flex items-center space-x-3 space-x-reverse">
-                            <MapPin className="w-5 h-5 text-purple-500" />
-                            <div>
-                              <p className="font-black text-gray-800 text-sm">مکان</p>
-                              <p className="text-gray-700 font-semibold text-sm line-clamp-1">{event.location}</p>
-                            </div>
-                          </div>
-                        </div>
                         </div>
 
                         {/* Action Buttons */}
@@ -278,39 +278,38 @@ const Events: React.FC = () => {
                               </div>
                             </div>
                           </div>
-                  </div>
-                  
-                  <div className="space-y-4 mb-6">
-                    <p className="text-gray-700 leading-relaxed text-lg">
-                      {event.description}
-                    </p>
-                    
-                    <div className="grid grid-cols-2 gap-4 text-sm">
-                      <div><strong>تاریخ:</strong> {event.date}</div>
-                      <div><strong>زمان:</strong> {event.time}</div>
-                      <div className="col-span-2"><strong>مکان:</strong> {event.location}</div>
+
+                          {/* Action Buttons */}
+                          <div className="space-y-4">
+                            <motion.a
+                              href={event.registrationUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                              className="w-full bg-gradient-to-r from-purple-500 to-emerald-500 hover:from-purple-600 hover:to-emerald-600 text-white py-3 rounded-2xl font-black text-base transition-all duration-200 flex items-center justify-center space-x-2 space-x-reverse"
+                            >
+                              <Users className="w-5 h-5" />
+                              <span>ثبت‌نام در رویداد</span>
+                              <ExternalLink className="w-4 h-4" />
+                            </motion.a>
+                            
+                            <motion.button
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                              onClick={() => setSelectedEvent(null)}
+                              className="w-full bg-white/30 backdrop-blur-md border border-white/40 text-gray-700 hover:text-purple-600 py-3 rounded-2xl font-black text-base transition-all duration-200"
+                            >
+                              بستن
+                            </motion.button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  
-                  <div className="flex space-x-4 space-x-reverse">
-                    <button
-                      onClick={() => setSelectedEvent(null)}
-                      className="flex-1 bg-gray-200 text-gray-800 py-3 rounded-xl font-semibold hover:bg-gray-300 transition-colors"
-                    >
-                      بستن
-                    </button>
-                    <a
-                      href={event.registrationUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 bg-orange-500 text-white py-3 rounded-xl font-semibold text-center hover:bg-orange-600 transition-colors"
-                    >
-                      ثبت‌نام
-                    </a>
-                  </div>
-                </div>
-              );
-            })()}
+                  </>
+                );
+              })()}
+            </div>
           </motion.div>
         </motion.div>
       )}
@@ -318,8 +317,4 @@ const Events: React.FC = () => {
   );
 };
 
-                          {/* Action Buttons */}
-                          <div className="space-y-4">
-                            <motion.a
-                              href={event.registrationUrl}
 export default Events;
