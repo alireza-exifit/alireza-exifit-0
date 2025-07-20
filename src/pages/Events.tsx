@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, MapPin, ExternalLink, Users, Sparkles } from 'lucide-react';
+import { Calendar, Clock, MapPin, ExternalLink, Users, Sparkles, X } from 'lucide-react';
 import { events } from '../data/events';
 
 const Events: React.FC = () => {
@@ -183,31 +183,101 @@ const Events: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
-          className="container mx-auto px-6 sm:px-8 lg:px-12 py-8"
+          onClick={() => setSelectedEvent(null)}
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-white/90 backdrop-blur-md border border-white/40 rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto"
+            transition={{ duration: 0.2 }}
+            className="bg-white/90 backdrop-blur-md border border-white/40 rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            {(() => {
-              const event = events.find(e => e.id === selectedEvent);
-              if (!event) return null;
+            <div className="relative">
+              {/* Close Button */}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setSelectedEvent(null)}
+                className="absolute top-6 left-6 z-10 w-12 h-12 bg-white/30 backdrop-blur-md border border-white/40 rounded-2xl flex items-center justify-center text-gray-700 hover:text-gray-900 transition-all duration-200"
+              >
+                <X className="w-6 h-6" />
+              </motion.button>
 
-              return (
-                <div className="p-8">
-                  <div className="text-center mb-6">
-                    <h2 className="text-2xl font-bold text-gray-800 mb-4">
-                      {event.title}
-                    </h2>
-                    <img
-                      src={event.image}
-                      alt={event.title}
-                      className="w-full h-48 object-cover rounded-xl mb-4"
-                    />
+              {(() => {
+                const event = events.find(e => e.id === selectedEvent);
+                if (!event) return null;
+
+                return (
+                  <>
+                    {/* Event Image */}
+                    <div className="relative h-72 sm:h-96 overflow-hidden rounded-t-3xl">
+                      <img
+                        src={event.image}
+                        alt={event.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                      <div className="absolute bottom-8 right-8">
+                        <div className="bg-gradient-to-r from-purple-500 to-emerald-500 text-white px-4 py-2 rounded-full font-black">
+                          رویداد {event.id}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Event Details */}
+                    <div className="p-6 sm:p-8">
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        {/* Left Column */}
+                        <div>
+                          <h2 className="text-2xl sm:text-3xl font-black text-gray-800 mb-4">
+                            {event.title}
+                          </h2>
+                          
+                          <p className="text-gray-700 leading-relaxed mb-6 text-base font-semibold">
+                            {event.description}
+                          </p>
+
+                          {/* Event Status */}
+                          <div className="flex items-center space-x-2 space-x-reverse mb-6">
+                            <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                            <span className="text-green-600 font-bold">ثبت‌نام باز است</span>
+                          </div>
+                        </div>
+
+                        {/* Right Column */}
+                        <div>
+                          <h3 className="text-xl font-black text-gray-800 mb-4">
+                            جزئیات رویداد
+                          </h3>
+                          
+                          <div className="space-y-4 mb-6">
+                            <div className="flex items-center space-x-3 space-x-reverse p-4 bg-white/30 backdrop-blur-md border border-white/40 rounded-2xl">
+                              <Calendar className="w-6 h-6 text-purple-500 flex-shrink-0" />
+                              <div>
+                                <p className="font-black text-gray-800 text-sm">تاریخ برگزاری</p>
+                                <p className="text-gray-700 font-semibold">{event.date}</p>
+                              </div>
+                            </div>
+                            
+                            <div className="flex items-center space-x-3 space-x-reverse p-4 bg-white/30 backdrop-blur-md border border-white/40 rounded-2xl">
+                              <Clock className="w-6 h-6 text-purple-500 flex-shrink-0" />
+                              <div>
+                                <p className="font-black text-gray-800 text-sm">زمان برگزاری</p>
+                                <p className="text-gray-700 font-semibold">{event.time}</p>
+                              </div>
+                            </div>
+                            
+                            <div className="flex items-center space-x-3 space-x-reverse p-4 bg-white/30 backdrop-blur-md border border-white/40 rounded-2xl">
+                              <MapPin className="w-6 h-6 text-purple-500 flex-shrink-0" />
+                              <div>
+                                <p className="font-black text-gray-800 text-sm">مکان برگزاری</p>
+                                <p className="text-gray-700 font-semibold">{event.location}</p>
+                              </div>
+                            </div>
+                          </div>
                   </div>
                   
                   <div className="space-y-4 mb-6">
@@ -248,4 +318,8 @@ const Events: React.FC = () => {
   );
 };
 
+                          {/* Action Buttons */}
+                          <div className="space-y-4">
+                            <motion.a
+                              href={event.registrationUrl}
 export default Events;
