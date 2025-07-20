@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
+import InstallPrompt from '../PWA/InstallPrompt';
 
 const Layout: React.FC = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -60,6 +61,7 @@ const Layout: React.FC = () => {
         <Outlet />
       </main>
       <Footer />
+      <InstallPrompt />
     </div>
   );
 };
