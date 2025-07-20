@@ -179,7 +179,6 @@ const Events: React.FC = () => {
 
       {/* Event Detail Modal */}
       {selectedEvent && (
-    </div>
   );
 };
 
